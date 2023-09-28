@@ -1,0 +1,554 @@
+html{
+    height: 100%;
+    width: 100%;
+}
+
+body{
+    /* background: linear-gradient(#83d678,#784bda); */
+    background-color: #ededed;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: #f84f07;
+    margin: 0;
+    min-height: 100%;
+}
+
+.header{
+    height: 40px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-shadow: 0 0 20px #aaa;
+}
+
+.image{
+    height: 30px;
+    margin-left: 20px;
+}
+
+.buttons-header-area{
+    position: absolute;
+    right: 0px;
+    /* width: calc(100%-200px); */
+    /* margin-left: calc(100% - 500px);  */
+    display: flex;
+    justify-content: space-between; 
+    flex-wrap: wrap; 
+    flex-direction: row;  
+}
+
+.buttons-header-area > a > button{
+    cursor: pointer;
+    padding: 5px 5px 5px 5px;
+    border: 0;
+    margin-right: 10px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 100%;
+    color: white;
+    font-weight: bold;
+    background: #3c3c3c;
+}
+/* #######################BOTON SCROLL###################### */
+.dropdownOK{
+    cursor: pointer;
+    padding: 5px 5px 5px 5px;
+    border: 0;
+    margin-right: 10px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 100%;
+    color: white;
+    font-weight: bold;
+    background: #3c3c3c;
+    height: 19px;
+}
+
+.dropdownOK > .content > p{
+    margin: 0;
+    z-index: 2;
+}
+
+.dropdownOK > button{
+    width: 100%;
+    height: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 17px;
+    background: #3c3c3c;
+}
+
+.dropdownOK > .content{
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #f7f7f7;
+
+}
+
+.dropdownOK > .content::after{
+    content: "";
+    position: absolute;
+    bottom: 6px;
+    right: 10%;
+    width: 80%;
+    height: 1px;
+    transform: scaleX(0);
+    background: rgb(255 255 255 / 30%);
+    transition: 0.3s;
+}
+
+.dropdownOK > .menu{
+    position: absolute;
+    z-index: 0;
+    display: grid;
+    top: -300%;
+    left: 0;
+    width: 34%;
+    padding: 40px 0 5px;
+    margin: 80px 0 10px;
+    border-radius: 6px;
+    visibility: hidden;
+    opacity: 0;
+    scale: 0.85;
+    background: linear-gradient(#ea8d8d, #a890fe);
+    transition: 0.3s;
+    height: 600px;
+}
+
+.dropdownOK:hover > .menu{
+    visibility: visible;
+    opacity: 1;
+    scale: 1;
+}
+
+.menu{
+    font-weight: normal;
+    font-size: 50%;
+}
+
+
+
+
+
+.scroll{
+    top: 0;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    border-radius: 10px 10px 10px;
+    color: #333;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    
+}
+
+::-webkit-scrollbar{ display: none;}
+
+.scroll > div{
+    margin-bottom: 10px;
+    font-size: 175%;
+    font-weight: bold;
+}
+/* #######################BOTON SCROLL###################### */
+
+/* #######################PLC&SMTY###################### */
+
+.Hero{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 1%;
+}
+
+.Devices{
+    width: 30%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 5px 0 20px #aaa;
+    margin: 1.6%;
+}
+
+h2{
+    text-align: center;
+}
+
+#container, #container-2, #container-3{
+    text-align: center;
+    padding: 5px;
+    /* border: 1px solid #c9fff0 */
+    border-radius: 5px;
+}
+
+label{
+    color: black;
+    margin: 3.5px;
+    border-radius: 5px;
+    padding: 1% 5% 1% 5%;
+    display: inline-block;
+    font-size: 150%;
+    font-weight: bold;
+    white-space: pre-wrap;
+    transition: font-size 1s linear;
+}
+
+
+label.idle{
+    background-color: rgba(0, 255, 0, 0.3);
+    -webkit-transition: backgrroud-color 1s linear;
+    transition: background-color 1s linear;
+}
+
+label.down{
+    background-color: rgba(255, 0, 0, 0.3);
+    -webkit-transition: backgrroud-color 1s linear;
+    transition: background-color 1s linear;
+
+} 
+
+.footer {
+    background-color: #333;
+    color: #fff;
+    box-shadow: 3px 0 5px #aaa;
+    align-items: center;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 70%;
+}
+
+/* #######################PLC&SMTY###################### */
+
+
+/* ####################WI DASHBOARD###################### */
+.dashboard{
+    background-color: white;
+    margin: 5px 5px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #aaa;
+    padding: 5px;
+    height: 98%;
+}
+
+.dev-container{
+    color: black;
+    height: 95%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7.5%, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(0%, 1fr));
+}
+
+.div_no{
+    grid-area: 1/ 1/ 2/ 6;
+    text-align: center;
+    font-size: 110%;
+}
+
+.div_name{
+    grid-area: 2/ 1/ 3/ 6;
+    font-weight: normal;
+    text-align: center;
+    align-self: center;
+    overflow-wrap: break-word;
+    font-size: 70%;
+}
+
+.div_spool{
+    grid-area: 3/ 1/ 4/ 3;
+    font-size: 100%;
+}
+
+.spool_ng{
+    grid-area: 3/ 1/ 4/ 3;
+    font-size: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
+    align-self: center;
+    border-radius: 15px;
+}
+
+.div_seq{
+    grid-area: 3/ 3/ 4/ 5;
+    font-size: 70%;
+    text-align: center;
+    align-self: center;
+}
+
+.wi-idle{
+    border-radius: 5px;
+    margin: 5px;
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: rgba(173, 255, 47, 0.5);
+}
+
+.wi-down{
+    border-radius: 5px;
+    margin: 5px;
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: #ea8d8d;
+}
+
+.wi-initial{
+    border-radius: 5px;
+    margin: 5px;
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: #ffb46d;
+}
+
+.wi-interrupted-online{
+    border-radius: 5px;
+    margin: 5px;
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: rgba(255, 255, 0, 0.5);
+}
+
+.wi-interrupted-down{
+    border-radius: 5px;
+    margin: 5px;
+    font-weight: bold;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 2fr 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    background-color: rgba(129, 16, 16, 0.75);
+    color: white;
+}
+/* ####################WI DASHBOARD###################### */
+
+/* #################### QUICK LINKS/!!! ###################### */
+.grid-links{
+    height: 90vh;
+    width: 98.5vw;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(5,1fr);
+    column-gap: 15px;
+    row-gap: 15px;
+}
+
+.smartEye-links{
+    background-color: white;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #aaa ;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    grid-area: 1/1/6/1;
+}
+
+.systems-links{
+    background-color: white;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #aaa ;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    grid-area: 1/2/2/4;
+}
+
+.vncVPD-links{
+    background-color: white;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #aaa ;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    grid-area: 2/2/6/4;
+}
+
+.vncPcData-links{
+    background-color: white;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #aaa ;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    grid-area: 1/4/6/6;
+}
+
+.links-container{
+    height: 100%;
+}
+
+.links-sub-container{
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+}
+
+.links-sub-container > h1 {
+    text-align: center;
+}
+
+.links-sub-container > h3{
+    margin: 10px;
+}
+
+.links-sub-container > div{
+    margin: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.links-sub-container > div > a {
+    width: 100%;
+    font-size: 100%;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    vertical-align: middle;
+    height: 100%;
+    width: 50px;
+    flex-wrap: wrap;
+    display: flex;
+    background-color: white;
+    box-shadow: 0 0 5px #aaa ;
+    text-decoration: none;
+    color: black;
+    padding: 5px 15px 5px 15px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    -webkit-transition: backgrroud-color 0.3s linear;
+    transition: background-color 0.3s linear;
+}
+
+.links-sub-container > div > a:hover{
+    background-color: rgb(0, 89, 255);
+    color: white;
+    -webkit-transition: backgrroud-color 0.3s linear;
+    transition: background-color 0.3s linear;
+
+}
+
+.smt-name{
+    visibility: hidden;
+    height: 0;
+    width: 0;
+    opacity: 0;
+    float: inline-end;
+    position: relative;
+}
+
+.links-sub-container > div > a:hover > .smt-name{
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 75px;
+    height: 20px;
+    visibility: visible;
+    opacity: 100%;
+    z-index: 2;
+    color: #333;
+    background-color: #e3ec81;
+    transform: translate(50%, 80%);
+    font-size: 80%;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #313131 ;
+
+}
+
+.vncVPD-links > div{
+    height: calc(100% - 10px);
+}
+
+.vnc-links-sub-container{
+    height: calc(100% - 10px);
+}
+
+.vnc-links-sub-container > h1{
+    margin: 10px 0 10px 0;
+    text-align: center;
+}
+
+.vnc-group{
+    height: calc(100% - 49px);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+}
+
+.vnc-group > form{
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.vnc-group > form > input{
+    margin: 2px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.vnc-group > form > button{
+    max-width: 100%;
+}
+
+.btn {
+    font-size: 80%;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    /* flex-wrap: wrap;
+    display: flex; */
+    border: none;
+    background-color: white;
+    box-shadow: 0 0 5px #aaa ;
+    text-decoration: none;
+    color: black;
+    padding: 5px 15px 5px 15px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    -webkit-transition: backgrroud-color 0.3s linear;
+    transition: background-color 0.3s linear;
+}
+
+.btn:hover{
+    background-color: rgb(0, 89, 255);
+    color: white;
+    -webkit-transition: backgrroud-color 0.3s linear;
+    transition: background-color 0.3s linear;
+
+}

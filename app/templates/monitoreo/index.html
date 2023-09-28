@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}
+PLC | SMT | BCR
+{% endblock %}
+
+
+{% block content %}
+    <div class="Hero">
+        <div class="Devices">
+            <h2>PLCs Status</h2>
+            <div id = "container"></div>
+        </div>
+
+        <div class="Devices">
+            <h2>Smart Eye Status</h2>
+            <div id = "container-2"></div>
+        </div>
+
+        <div class="Devices">
+            <h2>VPDs Status</h2>
+            <div id = "container-3"></div>
+        </div>
+
+        <script>
+            const plc = {{ plcData | tojson}};
+            const smteye = {{ smtData | tojson}};
+
+
+            function labelsPlcSmtyInit(plc, smteye){
+                const containerPlc = document.getElementById("container");
+                containerPlc.innerHTML = ""
+                let plcCount = 0;
+
+                for (var i = 0; i < 34; i++){
+                    const label = document.createElement("label");
+                    label.textContent = `${plc[i][1]} `;
+                    label.setAttribute("id", plc[i][1])
+                    containerPlc.appendChild(label);
+
+                    if (plc[i][2] === "1"){
+                        label.className = "idle";
+                    } else if (plc[i][2] === "0"){
+                        label.className = "down";
+                    }
+                }
+
+                const containerSmty = document.getElementById("container-2");
+                containerSmty.innerHTML = ""
+
+                let smtCount = 0;
+
+                for (var i = 0; i < 42; i++){
+                    const label = document.createElement("label");
+                    label.textContent = `${smteye[i][1]} `;
+                    label.setAttribute("id", smteye[i][1])
+                    containerSmty.appendChild(label);
+
+                    if (smteye[i][2] === "1"){
+                        label.className = "idle";
+                    } else if (smteye[i][2] === "0"){
+                        label.className = "down";
+                    }
+                }
+            }
+
+            function requestRefreshPlcSmtLabels(){
+                fetch('/', {method: 'POST', headers: {'Content-Type':'text/plain'}})
+                        .then(response => response.json())
+                        .then(response => labelsPlcSmtyRefresh(response))
+                        .then(data => {console.log('Respuesta de Flask:', data);})
+                        .catch(error => {console.error('Error al enviar datos al servidor:', error);});
+            }
+
+            function labelsPlcSmtyRefresh(response){
+                // console.log(response)
+                for (var item = 0; item <= response.length; item++){
+                    const dev = response[item]
+                    try{
+                        if (dev[1]){
+                        const devName = dev[1]
+                        console.log(dev)
+                        if (devName[0] == "P"){
+                            console.log("PLC")
+                            const label = document.getElementById(devName)
+                            if (response[item][2] === "1"){
+                                label.className = "idle";
+                            } else if (response[item][2] === "0"){
+                                label.className = "down";
+                            }
+                        } else if (response[item][1][0] == "S"){
+                            const label = document.getElementById(response[item][1])
+                            if (response[item][2] === "1"){
+                                label.className = "idle";
+                            } else if (response[item][2] === "0"){
+                                label.className = "down";
+                            }
+                        }
+                        }
+                    } catch(error){
+                        console.log("Item vacio")
+                    }
+                    
+                       
+                }
+            }
+
+            function updateVPDLabels(jsonBCR){
+                //console.log(Object.keys(jsonBCR).length);
+                const container = document.getElementById("container-3");
+                container.innerHTML = ""
+                const label = document.createElement("label");
+
+                if (Object.keys(jsonBCR).length > 3){
+                    label.textContent = "STATUS: " + jsonBCR["BCR"] + "\n" + "CHARGE: " + jsonBCR["CHARGE"] + "\n" + "CHARGING STATUS: " + jsonBCR["CHARGING STATUS"] + "\n" + "BATTERY HEALTH PERCENTAGE: " + jsonBCR["BATTERY HEALTH PERCENTAGE"] ;
+                } else {
+                    label.textContent = "BCR";
+                }
+                container.appendChild(label)
+
+                if (jsonBCR["BCR"] === "IDLE"){
+                    label.className = "idle";
+                } else if (jsonBCR["BCR"] === "DOWN"){
+                    label.className = "down";
+                }
+
+            }
+
+            function fetchJSON_(){
+                fetch("/BCR")
+                    .then(response => response.json())
+                    .then(jsonBCR => updateVPDLabels(jsonBCR))
+            }
+            function func(){
+                requestRefreshPlcSmtLabels()
+                fetchJSON_()
+            }
+            labelsPlcSmtyInit(plc, smteye)
+            setInterval(func,500)
+        </script>
+
+    </div>
+{% endblock %}

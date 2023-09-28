@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %} - MONITOR</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'style.css') }}">
+    <meta charset = "UTF-8">
+</head>
+<body>
+    <div class = "header">
+        <div id="id-buttons" class="buttons-header-area">
+            <a href="/">
+                <button type = "button" class="button-header">PLC|SMT|BCR</button>
+            </a>
+            <a href="/WI_DASHBOARD">
+                <button type = "button" class="button-header">WI Monitor</button>
+            </a>
+            <a href="/QUICK_LINKS">
+                <button type = "button" class="button-header">Links & IPs</button>
+            </a>
+        </div>
+    </div>
+    <section>{% block content %}{% endblock %}</section>
+    <div class = "footer">Hecho con &#128150; y paciemcia por Erick Gómez - GSL</div>
+</body>
+</html>

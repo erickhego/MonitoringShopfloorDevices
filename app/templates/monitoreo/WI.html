@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Nx-Auto | WI 
+{% endblock %}
+
+
+{% block content %}
+    <div class = "dashboard">
+        <div class="dev-container" id = "container-2"></div>
+    </div>
+    <script>
+        function addingSelectionButton(){
+            const headerButtons = document.getElementById("id-buttons")
+
+            const dropdown = document.createElement("div")
+            dropdown.className = "dropdownOK"
+            headerButtons.prepend(dropdown)
+
+            const content = document.createElement("div")
+            content.className = "content"
+            dropdown.appendChild(content)
+
+            const pText = document.createElement("p")
+            pText.textContent = "WI Device List"
+            content.appendChild(pText)
+
+            const button = document.createElement("button")
+            button.type = "button"
+            dropdown.appendChild(button)
+
+            const menu = document.createElement("div")
+            menu.className = "menu"
+            dropdown.appendChild(menu)
+
+            const wiList = document.createElement("div")
+            wiList.className = "scroll"
+            wiList.id = "wiList-container"
+            menu.appendChild(wiList)
+
+            const saveButton = document.createElement("button")
+            saveButton.id = "save_button"
+            saveButton.textContent = "Save"
+            menu.appendChild(saveButton)
+
+        }
+
+        function selectDevices(jsonData){
+            pc_no = Object.keys(jsonData)
+            const container = document.getElementById("wiList-container")
+            container.innerHTML = ""
+
+            var found = []
+
+            try{
+                let cookie = document.cookie
+                .split("; ")
+                .find((row) => row.startsWith("wiList="))
+                ?.split("=")[1]
+                let cookieList = decodeURIComponent(cookie.replace(/\\054/g, ','));
+                const regex = /(PC\d*)/g;
+                found = cookieList.match(regex)
+                console.log(found)
+            } catch(error){
+                alert('None WI selected. \n Use "WI Device List" to select a device.')
+            } 
+            
+            jsonData[pc_no].forEach(function(dev){
+                const a = document.createElement('a')
+                const checkbox = document.createElement('input')
+                checkbox.type = 'checkbox'
+                checkbox.value = dev
+                try{
+                    if (found.includes(dev)){
+                    checkbox.checked = true
+                    }
+                } catch(error){
+                    console.log('No existe info en cookie ')
+                }
+                
+                const label = document.createElement("label")
+                label.textContent = dev
+                a.appendChild(checkbox)
+                a.appendChild(label)
+                container.appendChild(a)
+                //container.appendChild(document.createElement("br"));
+            });
+        }
+
+        function refreshData(jsonData){
+            const container = document.getElementById("container-2")
+            container.innerHTML = ""
+
+            for (let dev in jsonData){
+
+                const div_parent = document.createElement("div")
+                div_parent.className = "WIelement"
+
+                const div_1 = document.createElement("div")
+                div_1.className = "div_no"
+                div_1.textContent = dev
+                div_parent.appendChild(div_1)
+
+                const div_2 = document.createElement("div")
+                div_2.className = "div_name"
+                div_2.textContent = jsonData[dev]['Name']
+                div_parent.appendChild(div_2)
+
+                const div_3 = document.createElement("div")
+                div_3.className = "div_spool"
+                div_3.textContent = jsonData[dev]['Spool']
+                div_parent.appendChild(div_3)
+
+                const div_4 = document.createElement("div")
+                div_4.className = "div_seq"
+                div_4.textContent = jsonData[dev]['Last_Seq']
+                div_parent.appendChild(div_4)
+
+                container.appendChild(div_parent)
+
+                if(jsonData[dev]['Status'] === 1){
+                    div_parent.className = "wi-idle"
+                } else if(jsonData[dev]['Status'] === 0){
+                    div_parent.className = "wi-down"
+                } else if(jsonData[dev]['Status'] === -1){
+                    div_parent.className = "wi-initial"
+                } 
+                if(jsonData[dev]['Interrupt_Status'] === 1 && jsonData[dev]['Status'] === 1){
+                    div_parent.className = "wi-interrupted-online"   
+                } else if(jsonData[dev]['Interrupt_Status'] === 1 && jsonData[dev]['Status'] === 0){
+                    div_parent.className = "wi-interrupted-down" 
+                }
+                if(jsonData[dev]['Spool'] > 5){
+                    div_3.className = "spool_ng"
+                }
+            }
+        }
+
+        function SaveSelections(){
+            document.addEventListener('DOMContentLoaded', function(){
+                const save_button = document.getElementById("save_button");
+                
+                save_button.addEventListener('click', function(){
+                    fetchJSON_()
+                    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                    const selected = [];
+                    checkboxes.forEach(function(checkbox){
+                        if(checkbox.checked){
+                            selected.push(checkbox.value);
+                        }
+                    })
+                    if (selected.length == 0){
+                        return
+                    }
+                    
+
+                    // Enviar la lista de los elemetos seleccionados a Flask 'WI_4query'
+                    fetch('/WI_JSON', {method: 'POST', headers: {'Content-Type':'application/json'}, body:JSON.stringify({selected:selected})})
+                        .then(response => response.json())
+                        .then(data => {console.log('Respuesta de Flask:', data);})
+                        .catch(error => {console.error('Error al enviar datos al servidor:', error);});
+                });
+            })
+        }
+
+        function fetchJSON(){
+            fetch("/WI_JSON")
+                .then(function(response){
+                    if (response.ok){
+                        response.json().then(data => ({data:data})).then(res => {refreshData(res.data)})
+                    }
+                })
+        }
+
+        function fetchJSON_(){
+            fetch("/WI_ALL_JSON")
+                .then(response => response.json())
+                .then(jsonData => selectDevices(jsonData));
+        }
+
+        addingSelectionButton()
+        fetchJSON_()
+        SaveSelections()
+        setInterval(fetchJSON,500)
+    </script>
+{% endblock %}

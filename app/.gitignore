@@ -1,0 +1,10 @@
+venv
+*.log
+*.py[ocd]
+*.json
+/Test_Scripts/
+*.xml
+*.txt
+/WI_MONITOR
+/data
+/static/logocompas.png
